@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TO-DOs List</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+	<script type="text/javascript">
+		function showTask()
+		{
+			var tableBody = document.getElementById("tableBody");
+			var innerhtml = "";
+		    var myList = JSON.parse(localStorage.getItem("myList"));
+		    for(var i=0;i<myList.length;i++)
+		    {
+		    	innerhtml += `<tr><th scope="row">${i+1}</th>
+						      <td>${myList[i][0]}</td>
+						      <td>${myList[i][1]}</td>
+						      <td><button onclick="deleteTask(${i});" type="button" class="btn btn-primary">Delete</button></tr>`;
+		    }
+		    tableBody.innerHTML = innerhtml;
+		}
+		function addTask()
+		{
+			var taskName = document.getElementById("taskName").value;
+			var taskDescription = document.getElementById("taskDescription").value;
+			if(localStorage.getItem("myList") == null)
+			{
+				var myList = [];
+				myList.push([taskName, taskDescription]);
+				localStorage.setItem("myList", JSON.stringify(myList));
+			}
+			else
+			{
+				var myList = JSON.parse(localStorage.getItem("myList"));
+				myList.push([taskName, taskDescription]);
+				localStorage.setItem("myList", JSON.stringify(myList));
+			}
+
+			var tableBody = document.getElementById("tableBody");
+			var innerhtml = "";
+		    var myList = JSON.parse(localStorage.getItem("myList"));
+		    for(var i=0;i<myList.length;i++)
+		    {
+		    	innerhtml += `<tr><th scope="row">${i+1}</th>
+						      <td>${myList[i][0]}</td>
+						      <td>${myList[i][1]}</td>
+						      <td><button onclick="deleteTask(${i});" type="button" class="btn btn-primary">Delete</button></tr>`;
+		    }
+		    tableBody.innerHTML = innerhtml;
+		}
+
+		function deleteTask(index)
+		{
+			var myList = JSON.parse(localStorage.getItem("myList"));
+			myList.splice(index, 1);
+			localStorage.setItem("myList", JSON.stringify(myList));
+			var innerhtml = "";
+		    var myList = JSON.parse(localStorage.getItem("myList"));
+		    for(var i=0;i<myList.length;i++)
+		    {
+		    	innerhtml += `<tr><th scope="row">${i+1}</th>
+						      <td>${myList[i][0]}</td>
+						      <td>${myList[i][1]}</td>
+						      <td><button onclick="deleteTask(${i});" type="button" class="btn btn-primary">Delete</button></tr>`;
+		    }
+		    tableBody.innerHTML = innerhtml;
+		}
+	</script>
+</head>
+<body onload="showTask()">
+	<h3 align="center"><u>My To-Do List</u></h3>
+	<legend style="margin-left: 20px">Task Name</legend>
+	<input id="taskName" type="text" name="taskName" placeholder="Please enter the task name" style="width: 40%;margin-left: 20px;">
+	<legend style="margin-left: 20px;margin-top: 10px;">Task Description</legend>
+	<input id="taskDescription" type="text" name="taskDescription" placeholder="Please enter the task description" style="width: 40%;margin-left: 20px;">
+	<br>
+	<button id="addTaskId" onclick="addTask();" style="margin-left: 20px;margin-top: 10px;" type="button" class="btn btn-primary">Add Task</button>
+	<br>
+	<h3 style="margin-left: 20px;margin-top: 10px;">Pending Tasks</h3>
+	<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">S.No.</th>
+		      <th scope="col">Task</th>
+		      <th scope="col">Description</th>
+		      <th scope="col">Action</th>
+		    </tr>
+		  </thead>
+		  <tbody id="tableBody">
+		  </tbody>
+	</table>
+</body>
+</html>
